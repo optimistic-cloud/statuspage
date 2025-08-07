@@ -1,3 +1,4 @@
 [
-  { "name": "dashboard", "url": "https://dashboard.optimistic.cloud" }
+  { "name": "dashboard", "url": "https://dashboard.optimistic.cloud" },
+  { "name": "documentation", "url": "https://docs.optimistic.cloud/" }
 ]
