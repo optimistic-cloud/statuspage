@@ -35,13 +35,19 @@ def check-service [url] {
 
 def hc-ping [result, hc_slug] {
   if ($env.HC_PING_KEY? | is-not-empty) {
-    if ($result == "success") { 
-      http get $"https://hc-ping.com/($env.HC_PING_KEY)/($hc_slug)" --max-time 30sec
-    } else { 
-      http get $"https://hc-ping.com/($env.HC_PING_KEY)/($hc_slug)/fail" --max-time 30sec
+    try {
+      if ($result == "success") { 
+        http get $"https://hc-ping.com/($env.HC_PING_KEY)/($hc_slug)" --max-time 30sec | ignore
+        print $"✓ Pinged healthchecks.io: ($hc_slug) -> success"
+      } else { 
+        http get $"https://hc-ping.com/($env.HC_PING_KEY)/($hc_slug)/fail" --max-time 30sec | ignore
+        print $"✓ Pinged healthchecks.io: ($hc_slug) -> failure"
+      }
+    } catch {
+      print $"✗ Failed to ping healthchecks.io for ($hc_slug)"
     }
   } else {
-      print "Secret not found!"
+    print "HC_PING_KEY secret not found - skipping healthchecks.io ping"
   }
 }
 
