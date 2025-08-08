@@ -29,19 +29,31 @@ def check-service [url] {
   try {
     let code = (http get $url --max-time 30sec --full | get status | default 0)
     if (is-success-code $code) { "success" } else { "failure" }
-  } catch { 
-    "failure"
+  } catch { "failure"
   }
 }
 
-def main [config_file: string] {
+def hc-ping [result, hc_slug] {
+  if ($env.HC_PING_KEY? | is-not-empty) {
+    if ($result == "success") { 
+      http get $"https://hc-ping.com/($env.HC_PING_KEY)/($hc_slug)" --max-time 30sec
+    } else { 
+      http get $"https://hc-ping.com/($env.HC_PING_KEY)/($hc_slug)/fail" --max-time 30sec
+    }
+  } else {
+      print "Secret not found!"
+  }
+}
+
+def main [--config-file: string] {
   if not ($config_file | path exists) { 
     error make { msg: $"Config file ($config_file) does not exist." }
   }
 
-  open $config_file | each { |row|
-      let result = check-service ($row.url)
+  open $config_file | each { |service|
+    let result = check-service ($service.url)
 
-      log-result ($row.name) $result
+    hc-ping $result ($service.hc-slug)
+    log-result ($service.name) $result
   }
 }
