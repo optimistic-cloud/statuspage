@@ -1,4 +1,7 @@
 [
   { "name": "dashboard", "url": "https://dashboard.optimistic.cloud", "hc-slug": "dashboard" },
-  { "name": "documentation", "url": "https://docs.optimistic.cloud/", "hc-slug": "documentation" }
+  { "name": "documentation", "url": "https://docs.optimistic.cloud/", "hc-slug": "documentation" },
+  { "name": "git", "url": "https://git.optimistic.cloud/", "hc-slug": "gitea" },
+  { "name": "gist", "url": "https://gist.optimistic.cloud/", "hc-slug": "gist" },
+  { "name": "vaultwarden", "url": "https://vaultwarden.optimistic.cloud/", "hc-slug": "vaultwarden" }
 ]
