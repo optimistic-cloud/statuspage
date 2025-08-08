@@ -22,9 +22,15 @@ jobs:
         with:
           version: "0.106.1"
 
-      - run: nu ./health-check.nu --config-file urls.json
+      - run: |
+          open urls.json | each { |service|
+            if $service.external == true {
+              nu ./health-check-service.nu --name $service.name --url $service.url --hc-slug $service.hc-slug
+            }
+          }
         env:
           HC_PING_KEY: ${{ secrets.HC_PING_KEY }}
+        shell: nu {0}
 
       - name: Configure Git and Commit changes
         run: |
@@ -37,3 +43,39 @@ jobs:
           else
             echo "No changes to commit"
           fi
+  ping-local1:
+      runs-on: self-hosted
+      name: Check all sites1
+      permissions:
+        contents: write
+      env:
+        TZ: Europe/Berlin
+      steps:
+        - uses: actions/checkout@v4
+          with:
+            persist-credentials: true
+
+        - uses: hustcer/setup-nu@v3
+          with:
+            version: "0.106.1"
+
+        - run: |
+            open urls.json | each { |service|
+              if $service.external == false {
+                nu ./health-check-service.nu --name $service.name --url $service.url --hc-slug $service.hc-slug
+              }
+            }
+          env:
+            HC_PING_KEY: ${{ secrets.HC_PING_KEY }}
+
+        - name: Configure Git and Commit changes
+          run: |
+            git config --global user.name 'GitHub Actions'
+            git config --global user.email 'actions@github.com'
+            git add logs/
+            if ! git diff --staged --quiet; then
+              git commit -m "[Automated] Update Health Check Logs"
+              git push origin main
+            else
+              echo "No changes to commit"
+            fi
