@@ -61,11 +61,6 @@ jobs:
 
         - run: |
             open urls.json | each { |service|
-              if $service.external == true {
-                nu ./health-check-service.nu --name $service.name --url $service.url --hc-slug $service.hc-slug
-              }
-            }
-            open urls.json | each { |service|
               if $service.external == false {
                 nu ./health-check-service.nu --name $service.name --url $service.url --hc-slug $service.hc-slug
               }
