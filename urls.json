@@ -1,7 +1,7 @@
 [
   { "name": "dashboard", "url": "https://dashboard.optimistic.cloud", "hc-slug": "dashboard", "external": true },
   { "name": "status", "url": "https://status.optimistic.cloud", "hc-slug": "status", "external": true },
-  { "name": "documentation", "url": "https://documnetation.optimistic.cloud/", "hc-slug": "documentation", "external": true },
+  { "name": "documentation", "url": "https://documentation.optimistic.cloud/", "hc-slug": "documentation", "external": true },
   { "name": "git", "url": "https://git.optimistic.cloud/", "hc-slug": "gitea", "external": false },
   { "name": "gist", "url": "https://gist.optimistic.cloud/", "hc-slug": "gist", "external": false },
   { "name": "vaultwarden", "url": "https://vaultwarden.optimistic.cloud/", "hc-slug": "vaultwarden", "external": false }
