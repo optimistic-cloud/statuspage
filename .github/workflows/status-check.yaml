@@ -6,13 +6,22 @@ on:
     - cron: "0 * * * *"
 
 jobs:
-  ping:
-    runs-on: ubuntu-latest
-    name: Check all sites
+  health-check:
+    runs-on: ${{ matrix.runner }}
+    name: Check ${{ matrix.type }} sites
     permissions:
       contents: write
     env:
       TZ: Europe/Berlin
+    strategy:
+      matrix:
+        include:
+          - runner: ubuntu-latest
+            type: external
+            external: true
+          - runner: self-hosted
+            type: internal  
+            external: false
     steps:
       - uses: actions/checkout@v4
         with:
@@ -22,9 +31,10 @@ jobs:
         with:
           version: "0.106.1"
 
-      - run: |
+      - name: Run health checks
+        run: |
           open urls.json | each { |service|
-            if $service.external == true {
+            if $service.external == ${{ matrix.external }} {
               nu ./health-check-service.nu --name $service.name --url $service.url --hc-slug $service.hc-slug
             }
           }
@@ -36,49 +46,11 @@ jobs:
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
-          git push origin main
+          git pull origin main
           git add logs/
           if ! git diff --staged --quiet; then
-            git commit -m "[Automated] Update Health Check Logs"
+            git commit -m "[Automated] Update Health Check Logs (${{ matrix.type }})"
             git push origin main
           else
             echo "No changes to commit"
           fi
-  ping-local1:
-      runs-on: self-hosted
-      name: Check all sites1
-      permissions:
-        contents: write
-      env:
-        TZ: Europe/Berlin
-      steps:
-        - uses: actions/checkout@v4
-          with:
-            persist-credentials: true
-
-        - uses: hustcer/setup-nu@v3
-          with:
-            version: "0.106.1"
-
-        - run: |
-            open urls.json | each { |service|
-              if $service.external == false {
-                nu ./health-check-service.nu --name $service.name --url $service.url --hc-slug $service.hc-slug
-              }
-            }
-          env:
-            HC_PING_KEY: ${{ secrets.HC_PING_KEY }}
-          shell: nu {0}
-
-        - name: Configure Git and Commit changes
-          run: |
-            git config --global user.name 'GitHub Actions'
-            git config --global user.email 'actions@github.com'
-            git push origin main
-            git add logs/
-            if ! git diff --staged --quiet; then
-              git commit -m "[Automated] Update Health Check Logs"
-              git push origin main
-            else
-              echo "No changes to commit"
-            fi
