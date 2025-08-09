@@ -72,6 +72,7 @@ jobs:
             }
           env:
             HC_PING_KEY: ${{ secrets.HC_PING_KEY }}
+          shell: nu {0}
 
         - name: Configure Git and Commit changes
           run: |
