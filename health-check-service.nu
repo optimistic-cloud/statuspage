@@ -33,27 +33,27 @@ def check-service [url] {
   }
 }
 
-def hc-ping [result, hc_slug] {
+def hc-ping [name, result] {
   if ($env.HC_PING_KEY? | is-not-empty) {
     try {
       if ($result == "success") { 
-        http get $"https://hc-ping.com/($env.HC_PING_KEY)/($hc_slug)" --max-time 30sec | ignore
-        print $"✓ Pinged healthchecks.io: ($hc_slug) -> success"
+        http get $"https://hc-ping.com/($env.HC_PING_KEY)/($name)-status?create=1" --max-time 30sec | ignore
+        print $"✓ Pinged healthchecks.io: ($name) -> success"
       } else { 
-        http get $"https://hc-ping.com/($env.HC_PING_KEY)/($hc_slug)/fail" --max-time 30sec | ignore
-        print $"✓ Pinged healthchecks.io: ($hc_slug) -> failure"
+        http get $"https://hc-ping.com/($env.HC_PING_KEY)/($name)-status/fail?create=1" --max-time 30sec | ignore
+        print $"✓ Pinged healthchecks.io: ($name) -> failure"
       }
     } catch {
-      print $"✗ Failed to ping healthchecks.io for ($hc_slug)"
+      print $"✗ Failed to ping healthchecks.io for ($name)"
     }
   } else {
     print "HC_PING_KEY secret not found - skipping healthchecks.io ping"
   }
 }
 
-def main [--name: string --url: string --hc-slug: string] {
+def main [--name: string --url: string] {
   let result = check-service $url
 
-  hc-ping $result $hc_slug
+  hc-ping $name $result
   log-result $name $result
 }
