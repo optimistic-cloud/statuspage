@@ -29,7 +29,8 @@ def check-service [url] {
   try {
     let code = (http get $url --max-time 30sec --full | get status | default 0)
     if (is-success-code $code) { "success" } else { "failure" }
-  } catch { "failure"
+  } catch { 
+		"failure"
   }
 }
 
