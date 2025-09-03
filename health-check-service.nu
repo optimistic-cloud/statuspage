@@ -44,8 +44,8 @@ def hc-ping [name, result] {
         http get $"https://hc-ping.com/($env.HC_PING_KEY)/($name)-status/fail?create=1" --max-time 30sec | ignore
         print $"✓ Pinged healthchecks.io: ($name) -> failure"
       }
-    } catch {
-      print $"✗ Failed to ping healthchecks.io for ($name)"
+    } catch {|err|
+      print $"✗ Failed to ping healthchecks.io for ($name). ($err)"
     }
   } else {
     print "HC_PING_KEY secret not found - skipping healthchecks.io ping"
