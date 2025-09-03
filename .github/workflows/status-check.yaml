@@ -36,7 +36,7 @@ jobs:
         run: |
           open urls.json | each { |service|
             if $service.external == ${{ matrix.external }} {
-              nu ./health-check-service.nu --name $service.name --url $service.url --hc-slug $service.hc-slug
+              nu ./health-check-service.nu --name $service.name --url $service.url
             }
           }
         env:
