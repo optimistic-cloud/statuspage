@@ -1,6 +1,5 @@
 [
   { "name": "dashboard", "url": "https://dashboard.optimistic.cloud", "external": true },
-  { "name": "documentation", "url": "https://documentation.optimistic.cloud/", "external": true },
   { "name": "git", "url": "https://git.optimistic.cloud/", "external": false },
   { "name": "gist", "url": "https://gist.optimistic.cloud/", "external": false },
   { "name": "vaultwarden", "url": "https://vaultwarden.optimistic.cloud/", "external": false },
