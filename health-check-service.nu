@@ -35,6 +35,7 @@ def check-service [url] {
 }
 
 def hc-ping [name, result] {
+  # TODO: name can contain empty spaces 
   if ($env.HC_PING_KEY? | is-not-empty) {
     try {
       if ($result == "success") { 
