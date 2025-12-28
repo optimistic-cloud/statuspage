@@ -3,5 +3,8 @@
   { "name": "git", "url": "https://git.optimistic.cloud/", "external": false },
   { "name": "gist", "url": "https://gist.optimistic.cloud/", "external": false },
   { "name": "vaultwarden", "url": "https://vaultwarden.optimistic.cloud/", "external": false },
-  { "name": "wallos", "url": "https://wallos.optimistic.cloud/", "external": false }
+  { "name": "wallos", "url": "https://wallos.optimistic.cloud/", "external": false },
+  { "name": "jellyfin", "url": "https://jellyfin.optimistic.cloud/", "external": false },
+  { "name": "outline", "url": "https://outline.optimistic.cloud/", "external": false },
+  { "name": "invidious", "url": "https://wallos.optimistic.cloud/", "external": false },
 ]
