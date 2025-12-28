@@ -6,5 +6,5 @@
   { "name": "wallos", "url": "https://wallos.optimistic.cloud/", "external": false },
   { "name": "jellyfin", "url": "https://jellyfin.optimistic.cloud/", "external": false },
   { "name": "outline", "url": "https://outline.optimistic.cloud/", "external": false },
-  { "name": "invidious", "url": "https://wallos.optimistic.cloud/", "external": false }
+  { "name": "invidious", "url": "https://invidious.optimistic.cloud/", "external": false }
 ]
