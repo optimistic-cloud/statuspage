@@ -24,11 +24,11 @@ jobs:
             type: internal  
             external: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           persist-credentials: true
 
-      - uses: hustcer/setup-nu@v3
+      - uses: hustcer/setup-nu@92c296ba1ba2ba04cc948ab64ddefe192dc13f0c # v3
         with:
           version: "0.106.1"
 
